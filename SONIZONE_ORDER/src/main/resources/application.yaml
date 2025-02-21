@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ORDER
+
+server:
+  port: 8000
+
+logging:
+  file:
+    name: C:/elk_logs/sonizone-elk-stack.log

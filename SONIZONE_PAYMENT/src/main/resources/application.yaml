@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: PAYMENT
+
+server:
+  port: 8001
+
+logging:
+  file:
+    name: C:/elk_logs/sonizone-elk-stack.log
