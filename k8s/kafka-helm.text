@@ -1,0 +1,23 @@
+1. Add the Bitnami Helm Repository:
+
+> helm repo add bitnami https://charts.bitnami.com/bitnami
+> helm repo update
+
+2. Install Kafka & Zookeeper
+
+*****Zookeepr Not needed as using KRaft:
+> helm install my-kafka bitnami/kafka --namespace kafka --set service.name=kafka-service --create-namespace
+
+If required restart kafka:
+> kubectl rollout restart statefulset my-kafka-controller -n kafka
+
+
+
+3. Verify Kafka & Zookeeper Are Running
+> kubectl get pods -n kafka
+
+4. Scale Kafka to 3 Brokers (High Availability)
+
+> helm upgrade my-kafka bitnami/kafka --set replicaCount=3 --namespace kafka
+
+> kubectl get pods -n kafka

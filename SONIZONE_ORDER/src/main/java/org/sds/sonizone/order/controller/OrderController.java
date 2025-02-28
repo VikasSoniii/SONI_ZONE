@@ -1,12 +1,11 @@
 package org.sds.sonizone.order.controller;
 
+import org.sds.sonizone.order.service.OrderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -15,6 +14,9 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    OrderServiceImpl orderService;
 
     @GetMapping
     public ResponseEntity<String> getOrderDetails(){
@@ -30,5 +32,11 @@ public class OrderController {
         ResponseEntity<String> response = restTemplate.getForEntity("http://payment-service:8001/payment/returnPaymentData", String.class);
         logger.info("ends: Inside callPaymentService() method and response : {}" + response);
         return response;
+    }
+
+    @PostMapping("/place/{orderId}")
+    public ResponseEntity<String> placeOrder(@PathVariable String orderId) {
+        logger.info("---------Inside OrderController class--------");
+        return orderService.placeOrder(orderId);
     }
 }
