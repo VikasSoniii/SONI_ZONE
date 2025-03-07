@@ -1,11 +1,28 @@
 spring:
   application:
     name: ORDER
+  #KAFKA Configuration
   kafka:
-    bootstrap-servers: my-kafka.kafka.svc.cluster.local:9092
+    bootstrap-servers: localhost:9092  #my-kafka.kafka.svc.cluster.local:9092    #kubernetes config url
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  #H2DB Configuration
+  datasource:
+    url: jdbc:h2:mem:orderdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update  # Creates tables automatically
+    show-sql: true      # Shows SQL queries in the console
+  h2:
+    console:
+      enabled: true     # Enables the H2 console
+      path: /h2-console # Sets the console path
 
 server:
   port: 8000

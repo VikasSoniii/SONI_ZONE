@@ -3,12 +3,14 @@ spring:
     name: PAYMENT
 
   kafka:
-    bootstrap-servers: my-kafka.kafka.svc.cluster.local:9092
+    bootstrap-servers: localhost:9092           #my-kafka.kafka.svc.cluster.local:9092
     consumer:
       group-id: payment-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer  #Correct for JSON
+      properties:
+        spring.json.trusted.packages: "*"  # Allow all packages (or use `com.example`)
 
 server:
   port: 8001

@@ -1,5 +1,8 @@
 package org.sds.sonizone.order.controller;
 
+
+import org.sds.sonizone.order.dto.OrderRequest;
+import org.sds.sonizone.order.security.JwtUtil;
 import org.sds.sonizone.order.service.OrderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,14 @@ public class OrderController {
     @Autowired
     OrderServiceImpl orderService;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
+    @PostMapping("/token")
+    public String generateToken(@RequestParam String username) {
+        return jwtUtil.generateToken(username);
+    }
+
     @GetMapping
     public ResponseEntity<String> getOrderDetails(){
         logger.info("Successfully retrieved order details!");
@@ -34,9 +45,16 @@ public class OrderController {
         return response;
     }
 
-    @PostMapping("/place/{orderId}")
+   /* @PostMapping("/place/{orderId}")
     public ResponseEntity<String> placeOrder(@PathVariable String orderId) {
         logger.info("---------Inside OrderController class--------");
         return orderService.placeOrder(orderId);
+    }*/
+
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
+        logger.info("starts: Inside createOrder and request data is: " + orderRequest);
+        return orderService.createOrder(orderRequest);
     }
 }
